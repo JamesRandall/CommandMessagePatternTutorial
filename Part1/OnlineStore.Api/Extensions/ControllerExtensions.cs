@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ShoppingCart.Extensions
+namespace OnlineStore.Api.Extensions
 {
     public static class ControllerExtensions
     {

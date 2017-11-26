@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:52613/",
+      "applicationUrl": "http://localhost:50750/",
       "sslPort": 0
     }
   },
@@ -11,19 +11,19 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/values",
+      "launchUrl": "/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "ShoppingCart": {
+    "OnlineStore": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/values",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:52614/"
+      "applicationUrl": "http://localhost:50751/"
     }
   }
 }
