@@ -46,7 +46,7 @@ namespace OnlineStore.Services.Implementation
                     PercentageDiscountApplied = 10,
                     UserId = userId
                 };
-                order.Total = order.OrderItems.Sum(i => i.Price * i.Quantity) * order.PercentageDiscountApplied / 100.0;
+                order.Total = order.OrderItems.Sum(i => i.Price * i.Quantity) * (100-order.PercentageDiscountApplied) / 100.0;
                 await _orderRepository.CreateAsync(order);
                 _logger.LogInformation("Created order for user {0} from basket", userId);
                 return order;

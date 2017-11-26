@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AzureFromTheTrenches.Commanding" Version="4.0.0" />
+    <PackageReference Include="AzureFromTheTrenches.Commanding.Abstractions" Version="4.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Checkout.Application\Checkout.Application.csproj" />
+    <ProjectReference Include="..\Checkout.Commands\Checkout.Commands.csproj" />
+    <ProjectReference Include="..\Checkout.Model\Checkout.Model.csproj" />
+    <ProjectReference Include="..\ShoppingCart.Application\ShoppingCart.Application.csproj" />
+    <ProjectReference Include="..\ShoppingCart.Commands\ShoppingCart.Commands.csproj" />
+    <ProjectReference Include="..\ShoppingCart.Model\ShoppingCart.Model.csproj" />
+    <ProjectReference Include="..\Store.Application\Store.Application.csproj" />
+  </ItemGroup>
+
+</Project>
