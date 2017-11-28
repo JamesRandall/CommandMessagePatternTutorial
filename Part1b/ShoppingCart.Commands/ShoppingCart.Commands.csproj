@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Core.Model\Core.Model.csproj" />
-    <ProjectReference Include="..\Product.Model\Store.Model.csproj" />
+    <ProjectReference Include="..\Store.Model\Store.Model.csproj" />
     <ProjectReference Include="..\ShoppingCart.Model\ShoppingCart.Model.csproj" />
   </ItemGroup>
 

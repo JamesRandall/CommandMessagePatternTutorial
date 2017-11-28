@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCart.Commands", "Sh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCart.Model", "ShoppingCart.Model\ShoppingCart.Model.csproj", "{7129CACB-3483-4DF5-A9D1-AE36692B691F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.Model", "Product.Model\Store.Model.csproj", "{28555A69-5148-422A-B045-7FB00F61BB93}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.Model", "Store.Model\Store.Model.csproj", "{28555A69-5148-422A-B045-7FB00F61BB93}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCart.Application", "ShoppingCart.Application\ShoppingCart.Application.csproj", "{6866D925-52FB-4A2E-87D2-02541DEA9B17}"
 EndProject
