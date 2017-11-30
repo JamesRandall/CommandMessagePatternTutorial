@@ -16,6 +16,6 @@ namespace OnlineStore.Api.Controllers
 
         [HttpGet("{productId}")]
         [ProducesResponseType(typeof(StoreProduct), 200)]
-        public async Task<IActionResult> Get([FromRoute] GetStoreProductQuery query) => await ExecuteCommand<StoreProduct>(query);
+        public async Task<IActionResult> Get([FromRoute] GetStoreProductQuery query) => await ExecuteCommand(query);
     }
 }
