@@ -43,27 +43,29 @@ namespace OnlineStore.Api.Controllers
 
         protected Task<IActionResult> ExecuteCommand<TCommand>() where TCommand : class, ICommand<CommandResponse>, new()
         {
-            TCommand command = new TCommand();
-            if (command is IUserContextCommand userContextCommand)
-            {
-                userContextCommand.UserId = this.GetUserId();
-            }
+            TCommand command = CreateCommand<TCommand>();
             return ExecuteCommand(command);
         }
 
         protected async Task<IActionResult> ExecuteCommand<TCommand, TResult>() where TCommand : class, ICommand<CommandResponse<TResult>>, new()
         {
-            TCommand command = new TCommand();
-            if (command is IUserContextCommand userContextCommand)
-            {
-                userContextCommand.UserId = this.GetUserId();
-            }
+            TCommand command = CreateCommand<TCommand>();
             CommandResponse<TResult> response = await Dispatcher.DispatchAsync(command);
             if (response.IsSuccess)
             {
                 return Ok(response.Result);
             }
             return BadRequest(response.ErrorMessage);
+        }
+
+        private TCommand CreateCommand<TCommand>() where TCommand : class, new()
+        {
+            TCommand command = new TCommand();
+            if (command is IUserContextCommand userContextCommand)
+            {
+                userContextCommand.UserId = this.GetUserId();
+            }
+            return command;
         }
     }
 }
