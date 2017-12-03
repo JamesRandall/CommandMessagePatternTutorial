@@ -9,9 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AzureFromTheTrenches.Commanding" Version="5.0.0" />
-    <PackageReference Include="AzureFromTheTrenches.Commanding.Abstractions" Version="5.0.0" />
-    <PackageReference Include="AzureFromTheTrenches.Commanding.MicrosoftDependencyInjection" Version="5.0.0" />
+    <PackageReference Include="AzureFromTheTrenches.Commanding" Version="5.0.2" />
+    <PackageReference Include="AzureFromTheTrenches.Commanding.Abstractions" Version="5.0.2" />
+    <PackageReference Include="AzureFromTheTrenches.Commanding.MicrosoftDependencyInjection" Version="5.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
   </ItemGroup>
