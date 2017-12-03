@@ -1,6 +1,7 @@
 ﻿using System;
 using AzureFromTheTrenches.Commanding;
 using AzureFromTheTrenches.Commanding.Abstractions;
+using AzureFromTheTrenches.Commanding.MicrosoftDependencyInjection;
 using Checkout.Application;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,7 +23,7 @@ namespace OnlineStore.Api
 
         public IConfiguration Configuration { get; }
 
-        private Func<IServiceProvider> ServiceProviderFunc { get; set; }
+        private IMicrosoftDependencyInjectionCommandingResolver CommandingDependencyResolver { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -33,11 +34,8 @@ namespace OnlineStore.Api
                 c.SwaggerDoc("v1", new Info { Title = "Online Store API", Version = "v1" });
             });
 
-            ICommandingDependencyResolver commandingDependencyResolver = new CommandingDependencyResolver(
-                (type, instance) => services.AddSingleton(type, instance),
-                (type, impl) => services.AddTransient(type, impl),
-                type => ServiceProviderFunc().GetService(type));
-            ICommandRegistry registry = commandingDependencyResolver.UseCommanding();
+            CommandingDependencyResolver = new MicrosoftDependencyInjectionCommandingResolver(services);
+            ICommandRegistry registry = CommandingDependencyResolver.UseCommanding();
 
             services
                 .UseShoppingCart(registry)
@@ -48,7 +46,7 @@ namespace OnlineStore.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            ServiceProviderFunc = () => app.ApplicationServices;
+            CommandingDependencyResolver.ServiceProvider = app.ApplicationServices;
 
             if (env.IsDevelopment())
             {
