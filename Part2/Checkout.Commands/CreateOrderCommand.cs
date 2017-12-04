@@ -7,6 +7,6 @@ namespace Checkout.Commands
 {
     public class CreateOrderCommand : ICommand<CommandResponse<Order>>, IUserContextCommand
     {
-        public Guid UserId { get; set; }
+        public Guid AuthenticatedUserId { get; set; }
     }
 }

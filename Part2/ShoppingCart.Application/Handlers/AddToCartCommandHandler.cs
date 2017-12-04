@@ -28,13 +28,13 @@ namespace ShoppingCart.Application.Handlers
 
         public async Task<CommandResponse> ExecuteAsync(AddToCartCommand command, CommandResponse previousResult)
         {
-            Model.ShoppingCart cart = await _repository.GetActualOrDefaultAsync(command.UserId);
+            Model.ShoppingCart cart = await _repository.GetActualOrDefaultAsync(command.AuthenticatedUserId);
 
             StoreProduct product = await _dispatcher.DispatchAsync(new GetStoreProductQuery{ProductId = command.ProductId});
 
             if (product == null)
             {
-                _logger.LogWarning("Product {0} can not be added to cart for user {1} as it does not exist", command.ProductId, command.UserId);
+                _logger.LogWarning("Product {0} can not be added to cart for user {1} as it does not exist", command.ProductId, command.AuthenticatedUserId);
                 return CommandResponse.WithError($"Product {command.ProductId} does not exist");
             }
             List<ShoppingCartItem> cartItems = new List<ShoppingCartItem>(cart.Items);
@@ -45,7 +45,7 @@ namespace ShoppingCart.Application.Handlers
             });
             cart.Items = cartItems;
             await _repository.UpdateAsync(cart);
-            _logger.LogInformation("Updated basket for user {0}", command.UserId);
+            _logger.LogInformation("Updated basket for user {0}", command.AuthenticatedUserId);
             return CommandResponse.Ok();
         }
     }

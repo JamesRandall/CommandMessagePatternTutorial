@@ -63,7 +63,7 @@ namespace OnlineStore.Api.Controllers
             TCommand command = new TCommand();
             if (command is IUserContextCommand userContextCommand)
             {
-                userContextCommand.UserId = this.GetUserId();
+                userContextCommand.AuthenticatedUserId = this.GetUserId();
             }
             return command;
         }

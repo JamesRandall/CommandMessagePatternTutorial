@@ -5,9 +5,9 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace OnlineStore.Api.Swagger
 {
-    public class SwaggerUserIdFilter : ISchemaFilter
+    public class SwaggerAuthenticatedUserIdFilter : ISchemaFilter
     {
-        private const string UserIdProperty = "userId";
+        private const string UserIdProperty = "authenticatedUserId";
         private static readonly Type UserContextCommandType = typeof(IUserContextCommand);
 
         public void Apply(Schema model, SchemaFilterContext context)

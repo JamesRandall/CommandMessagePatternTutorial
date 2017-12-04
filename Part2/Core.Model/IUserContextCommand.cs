@@ -4,6 +4,6 @@ namespace Core.Model
 {
     public interface IUserContextCommand
     {
-        Guid UserId { get; set; }
+        Guid AuthenticatedUserId { get; set; }
     }
 }

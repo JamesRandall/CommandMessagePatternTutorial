@@ -6,6 +6,6 @@ namespace ShoppingCart.Commands
 {
     public class GetCartQuery : ICommand<CommandResponse<Model.ShoppingCart>>, IUserContextCommand
     {
-        public Guid UserId { get; set; }
+        public Guid AuthenticatedUserId { get; set; }
     }
 }

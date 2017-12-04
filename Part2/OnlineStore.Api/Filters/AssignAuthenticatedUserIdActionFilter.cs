@@ -5,7 +5,7 @@ using OnlineStore.Api.Extensions;
 
 namespace OnlineStore.Api.Filters
 {
-    public class AssignUserIdActionFilter : IActionFilter
+    public class AssignAuthenticatedUserIdActionFilter : IActionFilter
     {
         public void OnActionExecuting(ActionExecutingContext context)
         {
@@ -13,7 +13,7 @@ namespace OnlineStore.Api.Filters
             {
                 if (parameter is IUserContextCommand userContextCommand)
                 {
-                    userContextCommand.UserId = ((Controller) context.Controller).GetUserId();
+                    userContextCommand.AuthenticatedUserId = ((Controller) context.Controller).GetUserId();
                 }
             }
         }

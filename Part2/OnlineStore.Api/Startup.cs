@@ -34,13 +34,13 @@ namespace OnlineStore.Api
         {
             services.AddMvc(c =>
             {
-                c.Filters.Add<AssignUserIdActionFilter>();
+                c.Filters.Add<AssignAuthenticatedUserIdActionFilter>();
             });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Online Store API", Version = "v1" });
-                c.SchemaFilter<SwaggerUserIdFilter>();
-                c.OperationFilter<SwaggerUserIdOperationFilter>();
+                c.SchemaFilter<SwaggerAuthenticatedUserIdFilter>();
+                c.OperationFilter<SwaggerAuthenticatedUserIdOperationFilter>();
             });
 
             CommandingDependencyResolver = new MicrosoftDependencyInjectionCommandingResolver(services);

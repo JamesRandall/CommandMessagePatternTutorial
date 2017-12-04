@@ -6,7 +6,7 @@ namespace ShoppingCart.Commands
 {
     public class AddToCartCommand : ICommand<CommandResponse>, IUserContextCommand
     {
-        public Guid UserId { get; set; }
+        public Guid AuthenticatedUserId { get; set; }
 
         public Guid ProductId { get; set; }
 

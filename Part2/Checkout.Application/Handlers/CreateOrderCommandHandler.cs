@@ -30,11 +30,11 @@ namespace Checkout.Application.Handlers
         
         public async Task<CommandResponse<Order>> ExecuteAsync(CreateOrderCommand command, CommandResponse<Order> previousResult)
         {
-            _logger.LogInformation("Creating order for user {0} from basket", command.UserId);
+            _logger.LogInformation("Creating order for user {0} from basket", command.AuthenticatedUserId);
             try
             {
 
-                ShoppingCart.Model.ShoppingCart cart = (await _dispatcher.DispatchAsync(new GetCartQuery{ UserId =  command.UserId})).Result;
+                ShoppingCart.Model.ShoppingCart cart = (await _dispatcher.DispatchAsync(new GetCartQuery{ AuthenticatedUserId =  command.AuthenticatedUserId})).Result;
                 if (cart.Items.Count == 0)
                 {
                     return new CommandResponse<Order> {  ErrorMessage = "Shopping cart must not be empty to checkout", IsSuccess = false};
@@ -52,17 +52,17 @@ namespace Checkout.Application.Handlers
                     }).ToArray(),
                     PaymentMade = false,
                     PercentageDiscountApplied = 10.0,
-                    UserId = command.UserId
+                    UserId = command.AuthenticatedUserId
                 };
                 order.Total = order.OrderItems.Sum(i => i.Price * i.Quantity) * (100-order.PercentageDiscountApplied) / 100.0;
                 await _repository.CreateAsync(order);
-                _logger.LogInformation("Created order for user {0} from basket", command.UserId);
+                _logger.LogInformation("Created order for user {0} from basket", command.AuthenticatedUserId);
                 return CommandResponse<Order>.Ok(order);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unable to create order for user {0}", command.UserId);
-                throw new CheckoutException($"Unable to create order for user {command.UserId}");
+                _logger.LogError(ex, "Unable to create order for user {0}", command.AuthenticatedUserId);
+                throw new CheckoutException($"Unable to create order for user {command.AuthenticatedUserId}");
             }
         }
     }
