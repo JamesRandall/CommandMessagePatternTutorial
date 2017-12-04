@@ -19,6 +19,7 @@ namespace OnlineStore.Api.Controllers
 
         [HttpPut("{productId}/{quantity}")]
         public async Task<IActionResult> Put([FromRoute] AddToCartCommand command) => await ExecuteCommand(command);
+        
 
         [HttpDelete]
         public async Task<IActionResult> Delete() => await ExecuteCommand<ClearCartCommand>();

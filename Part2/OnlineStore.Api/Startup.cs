@@ -1,16 +1,15 @@
-﻿using System;
-using AzureFromTheTrenches.Commanding;
+﻿using AzureFromTheTrenches.Commanding;
 using AzureFromTheTrenches.Commanding.Abstractions;
 using AzureFromTheTrenches.Commanding.MicrosoftDependencyInjection;
 using Checkout.Application;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using OnlineStore.Api.Binders;
 using OnlineStore.Api.Filters;
+using OnlineStore.Api.MetadataProviders;
 using OnlineStore.Api.Swagger;
 using ShoppingCart.Application;
 using Store.Application;
@@ -35,6 +34,7 @@ namespace OnlineStore.Api
             services.AddMvc(c =>
             {
                 c.Filters.Add<AssignAuthenticatedUserIdActionFilter>();
+                c.AddAuthenticatedUserIdAwareBodyModelBinderProvider();
             });
             services.AddSwaggerGen(c =>
             {

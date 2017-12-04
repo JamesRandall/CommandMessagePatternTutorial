@@ -7,16 +7,16 @@ namespace OnlineStore.Api.Swagger
 {
     public class SwaggerAuthenticatedUserIdFilter : ISchemaFilter
     {
-        private const string UserIdProperty = "authenticatedUserId";
+        private const string AuthenticatedUserIdProperty = "authenticatedUserId";
         private static readonly Type UserContextCommandType = typeof(IUserContextCommand);
 
         public void Apply(Schema model, SchemaFilterContext context)
         {
             if (UserContextCommandType.IsAssignableFrom(context.SystemType))
             {
-                if (model.Properties.ContainsKey(UserIdProperty))
+                if (model.Properties.ContainsKey(AuthenticatedUserIdProperty))
                 {
-                    model.Properties.Remove(UserIdProperty);
+                    model.Properties.Remove(AuthenticatedUserIdProperty);
                 }
             }
         }
