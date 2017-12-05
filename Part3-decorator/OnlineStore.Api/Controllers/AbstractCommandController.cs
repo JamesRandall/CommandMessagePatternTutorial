@@ -33,10 +33,10 @@ namespace OnlineStore.Api.Controllers
 
         protected async Task<IActionResult> ExecuteCommand<TResult>(ICommand<CommandResponse<TResult>> command)
         {
-            CommandResponse response = await Dispatcher.DispatchAsync(command);
+            CommandResponse<TResult> response = await Dispatcher.DispatchAsync(command);
             if (response.IsSuccess)
             {
-                return Ok();
+                return Ok(response.Result);
             }
             return BadRequest(response.ErrorMessage);
         }

@@ -19,9 +19,9 @@ namespace Checkout.Commands
             return $"Created order for user {AuthenticatedUserId} from basket";
         }
 
-        public string GetDispatchErrorLogMessage()
+        public string GetDispatchErrorLogMessage(Exception ex)
         {
-            return $"Unable to create order for user {AuthenticatedUserId}";
+            return $"Unable to create order for user {AuthenticatedUserId}, exception {ex.GetType().Name}";
         }
     }
 }
