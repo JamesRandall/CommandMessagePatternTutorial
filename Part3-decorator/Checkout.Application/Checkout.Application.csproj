@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Checkout.Commands\Checkout.Commands.csproj" />
     <ProjectReference Include="..\Checkout.Model\Checkout.Model.csproj" />
+    <ProjectReference Include="..\Checkout.Validation\Checkout.Validation.csproj" />
     <ProjectReference Include="..\Core.Model\Core.Model.csproj" />
     <ProjectReference Include="..\ShoppingCart.Commands\ShoppingCart.Commands.csproj" />
     <ProjectReference Include="..\ShoppingCart.Model\ShoppingCart.Model.csproj" />

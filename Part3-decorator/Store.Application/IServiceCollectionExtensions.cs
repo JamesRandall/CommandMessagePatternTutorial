@@ -1,8 +1,8 @@
-﻿using System;
-using AzureFromTheTrenches.Commanding.Abstractions;
+﻿using AzureFromTheTrenches.Commanding.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Store.Application.Handlers;
 using Store.Application.Repository;
+using Store.Validation;
 
 namespace Store.Application
 {
@@ -15,6 +15,8 @@ namespace Store.Application
             serviceCollection.AddSingleton<IStoreProductRepository, StoreProductRepository>();
 
             commandRegistry.Register<GetStoreProductQueryHandler>();
+
+            serviceCollection.RegisterValidators();
 
             return serviceCollection;
         }

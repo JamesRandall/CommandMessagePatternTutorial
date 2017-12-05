@@ -4,8 +4,8 @@ using Core.Model;
 
 namespace ShoppingCart.Commands
 {
-    public class ClearCartCommand : ICommand<CommandResponse>
+    public class ClearCartCommand : ICommand<CommandResponse>, IUserContextCommand
     {
-        public Guid UserId { get; set; }
+        public Guid AuthenticatedUserId { get; set; }
     }
 }

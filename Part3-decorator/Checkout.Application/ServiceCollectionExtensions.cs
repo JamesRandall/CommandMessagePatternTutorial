@@ -1,6 +1,7 @@
 ﻿using AzureFromTheTrenches.Commanding.Abstractions;
 using Checkout.Application.Handlers;
 using Checkout.Application.Repositories;
+using Checkout.Validation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Checkout.Application
@@ -14,6 +15,8 @@ namespace Checkout.Application
 
             registry.Register<CreateOrderCommandHandler>();
             registry.Register<MakePaymentCommandHandler>();
+
+            serviceCollection.RegisterValidators();
 
             return serviceCollection;
         }

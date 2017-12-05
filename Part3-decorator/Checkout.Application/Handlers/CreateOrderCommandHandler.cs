@@ -31,7 +31,7 @@ namespace Checkout.Application.Handlers
                 ShoppingCart.Model.ShoppingCart cart = (await _dispatcher.DispatchAsync(new GetCartQuery{ AuthenticatedUserId =  command.AuthenticatedUserId})).Result;
                 if (cart.Items.Count == 0)
                 {
-                    return new CommandResponse<Order> {  ErrorMessage = "Shopping cart must not be empty to checkout", IsSuccess = false};
+                    return CommandResponse<Order>.WithError("Shopping cart must not be empty to checkout");
                 }
                 Order order = new Order
                 {

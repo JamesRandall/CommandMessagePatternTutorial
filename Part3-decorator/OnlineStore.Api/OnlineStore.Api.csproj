@@ -12,6 +12,7 @@
     <PackageReference Include="AzureFromTheTrenches.Commanding" Version="5.1.0" />
     <PackageReference Include="AzureFromTheTrenches.Commanding.Abstractions" Version="5.1.0" />
     <PackageReference Include="AzureFromTheTrenches.Commanding.MicrosoftDependencyInjection" Version="5.1.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="7.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
   </ItemGroup>

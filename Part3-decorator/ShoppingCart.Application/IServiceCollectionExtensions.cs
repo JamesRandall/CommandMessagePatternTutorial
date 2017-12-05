@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using ShoppingCart.Application.Handlers;
 using ShoppingCart.Application.Repositories;
+using ShoppingCart.Validation;
 
 namespace ShoppingCart.Application
 {
@@ -15,6 +16,8 @@ namespace ShoppingCart.Application
 
             commandRegistry.Register<GetCartQueryHandler>();
             commandRegistry.Register<AddToCartCommandHandler>();
+
+            serviceCollection.RegisterValidators();
 
             return serviceCollection;
         }

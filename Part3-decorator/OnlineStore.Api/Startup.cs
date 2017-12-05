@@ -2,6 +2,7 @@
 using AzureFromTheTrenches.Commanding.Abstractions;
 using AzureFromTheTrenches.Commanding.MicrosoftDependencyInjection;
 using Checkout.Application;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -11,7 +12,6 @@ using Microsoft.Extensions.Logging;
 using OnlineStore.Api.Binders;
 using OnlineStore.Api.Commanding;
 using OnlineStore.Api.Filters;
-using OnlineStore.Api.MetadataProviders;
 using OnlineStore.Api.Swagger;
 using ShoppingCart.Application;
 using Store.Application;
@@ -37,7 +37,8 @@ namespace OnlineStore.Api
             {
                 c.Filters.Add<AssignAuthenticatedUserIdActionFilter>();
                 c.AddAuthenticatedUserIdAwareBodyModelBinderProvider();
-            });
+            }).AddFluentValidation();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Online Store API", Version = "v1" });
