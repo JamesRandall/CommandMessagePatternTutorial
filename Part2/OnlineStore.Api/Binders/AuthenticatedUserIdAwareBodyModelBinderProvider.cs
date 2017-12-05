@@ -27,7 +27,8 @@ namespace OnlineStore.Api.Binders
 
         public IModelBinder GetBinder(ModelBinderProviderContext context)
         {
-            return new AuthenticatedUserIdAwareBodyModelBinder(_decoratedProvider.GetBinder(context));
+            IModelBinder modelBinder = _decoratedProvider.GetBinder(context);
+            return modelBinder == null ? null : new AuthenticatedUserIdAwareBodyModelBinder(_decoratedProvider.GetBinder(context));
         }
     }
 }

@@ -30,7 +30,7 @@ namespace ShoppingCart.Application.Handlers
         {
             Model.ShoppingCart cart = await _repository.GetActualOrDefaultAsync(command.AuthenticatedUserId);
 
-            StoreProduct product = await _dispatcher.DispatchAsync(new GetStoreProductQuery{ProductId = command.ProductId});
+            StoreProduct product = (await _dispatcher.DispatchAsync(new GetStoreProductQuery{ProductId = command.ProductId})).Result;
 
             if (product == null)
             {
