@@ -10,10 +10,10 @@ namespace OnlineStore.Api.Commanding
 {
     public class LoggingCommandDispatcher : ICommandDispatcher
     {
-        private readonly ICommandDispatcher _underlyingDispatcher;
+        private readonly IFrameworkCommandDispatcher _underlyingDispatcher;
         private readonly ILogger<LoggingCommandDispatcher> _logger;
 
-        public LoggingCommandDispatcher(ICommandDispatcher underlyingDispatcher,
+        public LoggingCommandDispatcher(IFrameworkCommandDispatcher underlyingDispatcher,
             ILoggerFactory loggerFactory)
         {
             _underlyingDispatcher = underlyingDispatcher;
@@ -54,8 +54,6 @@ namespace OnlineStore.Api.Commanding
 
         public ICommandExecuter AssociatedExecuter => _underlyingDispatcher.AssociatedExecuter;
 
-
-
         private void LogPreDispatchMessage(ICommand command)
         {
             if (command is ILogAwareCommand logAwareCommand)
@@ -92,11 +90,12 @@ namespace OnlineStore.Api.Commanding
 
         private void LogFailedPostDispatchMessage(ICommand command, Exception ex)
         {
+            string message = null;
             if (command is ILogAwareCommand logAwareCommand)
             {
-                _logger.LogError(ex, logAwareCommand.GetDispatchErrorLogMessage());
+                message = logAwareCommand.GetDispatchErrorLogMessage(ex);
             }
-            else if (command is IUserContextCommand userContextCommand)
+            if (message == null && command is IUserContextCommand userContextCommand)
             {
                 _logger.LogError(ex, "Error executing command {commandType} for user {userId}", command.GetType().Name,
                     userContextCommand.AuthenticatedUserId);

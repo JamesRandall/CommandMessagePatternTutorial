@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AzureFromTheTrenches.Commanding.Abstractions" Version="5.0.2" />
+    <PackageReference Include="AzureFromTheTrenches.Commanding.Abstractions" Version="5.1.0" />
   </ItemGroup>
 
   <ItemGroup>

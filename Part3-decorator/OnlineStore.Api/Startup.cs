@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using OnlineStore.Api.Binders;
+using OnlineStore.Api.Commanding;
 using OnlineStore.Api.Filters;
 using OnlineStore.Api.MetadataProviders;
 using OnlineStore.Api.Swagger;
@@ -50,6 +52,8 @@ namespace OnlineStore.Api
                 .UseShoppingCart(registry)
                 .UseStore(registry)
                 .UseCheckout(registry);
+            services.Replace(new ServiceDescriptor(typeof(ICommandDispatcher), typeof(LoggingCommandDispatcher),
+                ServiceLifetime.Transient));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

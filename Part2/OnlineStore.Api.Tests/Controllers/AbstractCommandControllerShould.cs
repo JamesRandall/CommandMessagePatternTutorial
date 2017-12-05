@@ -77,5 +77,95 @@ namespace OnlineStore.Api.Tests.Controllers
             Assert.Equal(400, castResult.StatusCode);
             Assert.Equal("went wrong", castResult.Value);
         }
+
+        [Fact]
+        public async Task ExecuteCommandWithCommandResponseWithResultGeneratesOkResponse()
+        {
+            SimpleCommandCommandResponseResult command = new SimpleCommandCommandResponseResult();
+            Mock<ICommandDispatcher> dispatcher = new Mock<ICommandDispatcher>();
+            dispatcher.Setup(x => x.DispatchAsync(command, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new CommandResult<CommandResponse<bool>>(CommandResponse<bool>.Ok(true), false));
+            TestSubjectController controller = new TestSubjectController(dispatcher.Object);
+
+            IActionResult result = await controller.ExecuteCommandProxy(command);
+
+            OkObjectResult castResult = (OkObjectResult)result;
+            Assert.Equal(200, castResult.StatusCode);
+        }
+
+        [Fact]
+        public async Task ExecuteCommandWithCommandResponseWithResultGeneratesBadResponse()
+        {
+            SimpleCommandCommandResponseResult command = new SimpleCommandCommandResponseResult();
+            Mock<ICommandDispatcher> dispatcher = new Mock<ICommandDispatcher>();
+            dispatcher.Setup(x => x.DispatchAsync(command, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new CommandResult<CommandResponse<bool>>(CommandResponse<bool>.WithError("went wrong"), false));
+            TestSubjectController controller = new TestSubjectController(dispatcher.Object);
+
+            IActionResult result = await controller.ExecuteCommandProxy(command);
+
+            BadRequestObjectResult castResult = (BadRequestObjectResult)result;
+            Assert.Equal(400, castResult.StatusCode);
+            Assert.Equal("went wrong", castResult.Value);
+        }
+
+        [Fact]
+        public async Task ExecuteGenericCommandWithCommandResponseWithNoResultGeneratesOkResponse()
+        {
+            Mock<ICommandDispatcher> dispatcher = new Mock<ICommandDispatcher>();
+            dispatcher.Setup(x => x.DispatchAsync(It.IsAny<SimpleCommandCommandResponse>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new CommandResult<CommandResponse>(CommandResponse.Ok(), false));
+            TestSubjectController controller = new TestSubjectController(dispatcher.Object);
+
+            IActionResult result = await controller.ExecuteCommandProxy<SimpleCommandCommandResponse>();
+
+            OkResult castResult = (OkResult)result;
+            Assert.Equal(200, castResult.StatusCode);
+        }
+
+        [Fact]
+        public async Task ExecuteGenericCommandWithCommandResponseWithNoResultGeneratesBadResponse()
+        {
+            Mock<ICommandDispatcher> dispatcher = new Mock<ICommandDispatcher>();
+            dispatcher.Setup(x => x.DispatchAsync(It.IsAny<SimpleCommandCommandResponse>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new CommandResult<CommandResponse>(CommandResponse.WithError("went wrong"), false));
+            TestSubjectController controller = new TestSubjectController(dispatcher.Object);
+
+            IActionResult result = await controller.ExecuteCommandProxy<SimpleCommandCommandResponse>();
+
+            BadRequestObjectResult castResult = (BadRequestObjectResult)result;
+            Assert.Equal(400, castResult.StatusCode);
+            Assert.Equal("went wrong", castResult.Value);
+        }
+
+        [Fact]
+        public async Task ExecuteGenericCommandWithCommandResponseWithResultGeneratesOkResponse()
+        {
+            Mock<ICommandDispatcher> dispatcher = new Mock<ICommandDispatcher>();
+            dispatcher.Setup(x => x.DispatchAsync(It.IsAny<SimpleCommandCommandResponseResult>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new CommandResult<CommandResponse<bool>>(CommandResponse<bool>.Ok(true), false));
+            TestSubjectController controller = new TestSubjectController(dispatcher.Object);
+
+            IActionResult result = await controller.ExecuteCommandProxy<SimpleCommandCommandResponseResult, bool>();
+
+            OkObjectResult castResult = (OkObjectResult)result;
+            Assert.True((bool)castResult.Value);
+            Assert.Equal(200, castResult.StatusCode);
+        }
+
+        [Fact]
+        public async Task ExecuteGenericCommandWithCommandResponseWithResultGeneratesBadResponse()
+        {
+            Mock<ICommandDispatcher> dispatcher = new Mock<ICommandDispatcher>();
+            dispatcher.Setup(x => x.DispatchAsync(It.IsAny<SimpleCommandCommandResponseResult>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new CommandResult<CommandResponse<bool>>(CommandResponse<bool>.WithError("went wrong"), false));
+            TestSubjectController controller = new TestSubjectController(dispatcher.Object);
+
+            IActionResult result = await controller.ExecuteCommandProxy<SimpleCommandCommandResponseResult, bool>();
+
+            BadRequestObjectResult castResult = (BadRequestObjectResult)result;
+            Assert.Equal(400, castResult.StatusCode);
+            Assert.Equal("went wrong", castResult.Value);
+        }
     }
 }

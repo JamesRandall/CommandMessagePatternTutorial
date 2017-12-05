@@ -1,9 +1,11 @@
-﻿namespace Core.Model
+﻿using System;
+
+namespace Core.Model
 {
     public interface ILogAwareCommand
     {
         string GetPreDispatchLogMessage();
         string GetPostDispatchLogMessage();
-        string GetDispatchErrorLogMessage();
+        string GetDispatchErrorLogMessage(Exception ex);
     }
 }

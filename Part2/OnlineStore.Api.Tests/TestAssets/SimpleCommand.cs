@@ -16,4 +16,9 @@ namespace OnlineStore.Api.Tests.TestAssets
     {
         
     }
+
+    internal class SimpleCommandCommandResponseResult : ICommand<CommandResponse<bool>>
+    {
+
+    }
 }
