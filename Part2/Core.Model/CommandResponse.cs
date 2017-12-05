@@ -23,10 +23,5 @@
         public static CommandResponse<T> Ok(T result) { return new CommandResponse<T> { IsSuccess = true, Result = result}; }
 
         public new static CommandResponse<T> WithError(string error) { return new CommandResponse<T> { IsSuccess = false, ErrorMessage = error }; }
-
-        public static implicit operator T(CommandResponse<T> from)
-        {
-            return from.Result;
-        }
     }
 }
