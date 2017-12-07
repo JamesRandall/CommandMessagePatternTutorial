@@ -4,7 +4,7 @@ using ShoppingCart.Commands;
 
 namespace ShoppingCart.Validation
 {
-    class AddToCartCommandValidator : AbstractValidator<AddToCartCommand>
+    internal class AddToCartCommandValidator : AbstractValidator<AddToCartCommand>
     {
         public AddToCartCommandValidator()
         {
