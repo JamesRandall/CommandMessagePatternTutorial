@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+VisualStudioVersion = 15.0.27130.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.Api", "OnlineStore.Api\OnlineStore.Api.csproj", "{6232698D-0A6C-4C31-9743-493BAAA6799C}"
 EndProject
@@ -35,11 +35,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A077278A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.Api.Tests", "OnlineStore.Api.Tests\OnlineStore.Api.Tests.csproj", "{8D5CEB45-3A10-4DA1-91B9-9C15D24FB3A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkout.Validation", "Checkout.Validation\Checkout.Validation.csproj", "{68D109E9-289F-4401-B063-A19B3A9BB01B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Checkout.Validation", "Checkout.Validation\Checkout.Validation.csproj", "{68D109E9-289F-4401-B063-A19B3A9BB01B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCart.Validation", "ShoppingCart.Validation\ShoppingCart.Validation.csproj", "{54C8FC62-597E-473F-90F1-05107759B1D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingCart.Validation", "ShoppingCart.Validation\ShoppingCart.Validation.csproj", "{54C8FC62-597E-473F-90F1-05107759B1D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.Validation", "Store.Validation\Store.Validation.csproj", "{AC604F9E-2F78-469C-911B-61F3A244001A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Validation", "Store.Validation\Store.Validation.csproj", "{AC604F9E-2F78-469C-911B-61F3A244001A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Checkout.Validation.Tests", "Checkout.Validation.Tests\Checkout.Validation.Tests.csproj", "{E1D41BF5-C205-46EA-855F-0F3F46AE664D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingCart.Validation.Tests", "ShoppingCart.Validation.Tests\ShoppingCart.Validation.Tests.csproj", "{2DF35D20-B00D-40C6-8A6D-B9EDF5A8FC7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.Validation.Tests", "Store.Validation.Tests\Store.Validation.Tests.csproj", "{D23CE7C3-7E4F-4EE6-93EE-653ACA6CC817}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +113,18 @@ Global
 		{AC604F9E-2F78-469C-911B-61F3A244001A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC604F9E-2F78-469C-911B-61F3A244001A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC604F9E-2F78-469C-911B-61F3A244001A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1D41BF5-C205-46EA-855F-0F3F46AE664D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1D41BF5-C205-46EA-855F-0F3F46AE664D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1D41BF5-C205-46EA-855F-0F3F46AE664D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1D41BF5-C205-46EA-855F-0F3F46AE664D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DF35D20-B00D-40C6-8A6D-B9EDF5A8FC7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DF35D20-B00D-40C6-8A6D-B9EDF5A8FC7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DF35D20-B00D-40C6-8A6D-B9EDF5A8FC7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DF35D20-B00D-40C6-8A6D-B9EDF5A8FC7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D23CE7C3-7E4F-4EE6-93EE-653ACA6CC817}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D23CE7C3-7E4F-4EE6-93EE-653ACA6CC817}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D23CE7C3-7E4F-4EE6-93EE-653ACA6CC817}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D23CE7C3-7E4F-4EE6-93EE-653ACA6CC817}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,6 +143,9 @@ Global
 		{68D109E9-289F-4401-B063-A19B3A9BB01B} = {5A5FF5AC-20DB-420B-BA64-EF6DC09DEF10}
 		{54C8FC62-597E-473F-90F1-05107759B1D7} = {2092A344-E8C7-40AE-8CFE-428E50CC0BDD}
 		{AC604F9E-2F78-469C-911B-61F3A244001A} = {CC80B60D-9212-4635-BCCB-6D0AC385C7CF}
+		{E1D41BF5-C205-46EA-855F-0F3F46AE664D} = {A077278A-21A2-4220-9527-F29574913483}
+		{2DF35D20-B00D-40C6-8A6D-B9EDF5A8FC7B} = {A077278A-21A2-4220-9527-F29574913483}
+		{D23CE7C3-7E4F-4EE6-93EE-653ACA6CC817} = {A077278A-21A2-4220-9527-F29574913483}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E289D8E3-515C-443F-A13B-FB30958BCABF}

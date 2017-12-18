@@ -75,7 +75,7 @@ namespace OnlineStore.Api.Tests.Controllers
 
             BadRequestObjectResult castResult = (BadRequestObjectResult)result;
             Assert.Equal(400, castResult.StatusCode);
-            Assert.Equal("went wrong", castResult.Value);
+            Assert.Equal("went wrong", ((string[])((SerializableError)castResult.Value)[""])[0]);
         }
 
         [Fact]
@@ -106,7 +106,7 @@ namespace OnlineStore.Api.Tests.Controllers
 
             BadRequestObjectResult castResult = (BadRequestObjectResult)result;
             Assert.Equal(400, castResult.StatusCode);
-            Assert.Equal("went wrong", castResult.Value);
+            Assert.Equal("went wrong", ((string[])((SerializableError)castResult.Value)[""])[0]);
         }
 
         [Fact]
@@ -135,7 +135,7 @@ namespace OnlineStore.Api.Tests.Controllers
 
             BadRequestObjectResult castResult = (BadRequestObjectResult)result;
             Assert.Equal(400, castResult.StatusCode);
-            Assert.Equal("went wrong", castResult.Value);
+            Assert.Equal("went wrong", ((string[])((SerializableError)castResult.Value)[""])[0]);
         }
 
         [Fact]
@@ -165,7 +165,7 @@ namespace OnlineStore.Api.Tests.Controllers
 
             BadRequestObjectResult castResult = (BadRequestObjectResult)result;
             Assert.Equal(400, castResult.StatusCode);
-            Assert.Equal("went wrong", castResult.Value);
+            Assert.Equal("went wrong", ((string[])((SerializableError)castResult.Value)[""])[0]);
         }
     }
 }
