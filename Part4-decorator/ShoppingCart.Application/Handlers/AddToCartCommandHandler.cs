@@ -45,7 +45,6 @@ namespace ShoppingCart.Application.Handlers
             });
             cart.Items = cartItems;
             await _repository.UpdateAsync(cart);
-            _logger.LogInformation("Updated basket for user {0}", command.AuthenticatedUserId);
             return CommandResponse.Ok();
         }
     }

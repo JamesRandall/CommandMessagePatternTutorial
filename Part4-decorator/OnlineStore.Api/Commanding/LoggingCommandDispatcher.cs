@@ -32,24 +32,13 @@ namespace OnlineStore.Api.Commanding
             catch (Exception ex)
             {
                 LogFailedPostDispatchMessage(command, ex);
-                throw;
+                return new CommandResult<TResult>(CommandResponse<TResult>.WithError($"Error occurred performing operation {command.GetType().Name}"), false);
             }
         }
 
-        public async Task<CommandResult> DispatchAsync(ICommand command, CancellationToken cancellationToken = new CancellationToken())
+        public Task<CommandResult> DispatchAsync(ICommand command, CancellationToken cancellationToken = new CancellationToken())
         {
-            try
-            {
-                LogPreDispatchMessage(command);
-                CommandResult result = await _underlyingDispatcher.DispatchAsync(command, cancellationToken);
-                LogSuccessfulPostDispatchMessage(command);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                LogFailedPostDispatchMessage(command, ex);
-                throw;
-            }
+            throw new NotSupportedException("All commands must return a CommandResponse");
         }
 
         public ICommandExecuter AssociatedExecuter => _underlyingDispatcher.AssociatedExecuter;
