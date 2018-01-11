@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AzureFromTheTrenches.Commanding.Abstractions;
 using AzureFromTheTrenches.Commanding.Abstractions.Model;
@@ -6,6 +7,7 @@ using Core.Model;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using OnlineStore.Api.Controllers;
+using OnlineStore.Api.Exceptions;
 using OnlineStore.Api.Tests.TestAssets;
 using Xunit;
 
@@ -33,7 +35,7 @@ namespace OnlineStore.Api.Tests.Controllers
         }
 
         [Fact]
-        public async Task ExecuteCommandWithResultGeneratesOkResponse()
+        public async Task ExecuteCommandWithResultAndGenerateOkResponse()
         {
             SimpleCommandWithResult command = new SimpleCommandWithResult();
             Mock<ICommandDispatcher> dispatcher = new Mock<ICommandDispatcher>();
@@ -48,7 +50,23 @@ namespace OnlineStore.Api.Tests.Controllers
         }
 
         [Fact]
-        public async Task ExecuteCommandWithCommandResponseNoResultGeneratesOkResponse()
+        public async Task ExecuteCommandWithResultAndGenerateModelStateErrorOnDispatchErrorException()
+        {
+            SimpleCommandWithResult command = new SimpleCommandWithResult();
+            Mock<ICommandDispatcher> dispatcher = new Mock<ICommandDispatcher>();
+            dispatcher.Setup(x => x.DispatchAsync(command, It.IsAny<CancellationToken>()))
+                .Throws(new DispatcherException("An error occurred", new Exception()));
+            TestSubjectController controller = new TestSubjectController(dispatcher.Object);
+
+            IActionResult result = await controller.ExecuteCommandProxy(command);
+
+            BadRequestObjectResult castResult = (BadRequestObjectResult)result;
+            Assert.Equal(400, castResult.StatusCode);
+            Assert.Equal("An error occurred", ((string[])((SerializableError)castResult.Value)[""])[0]);
+        }
+
+        [Fact]
+        public async Task ExecuteCommandWithCommandResponseAndNoResultAndGenerateOkResponse()
         {
             SimpleCommandCommandResponse command = new SimpleCommandCommandResponse();
             Mock<ICommandDispatcher> dispatcher = new Mock<ICommandDispatcher>();
@@ -63,7 +81,23 @@ namespace OnlineStore.Api.Tests.Controllers
         }
 
         [Fact]
-        public async Task ExecuteCommandWithCommandResponseNoResultGeneratesBadResponse()
+        public async Task ExecuteCommandWithCommandResponseAndNoResultAndGenerateBadResultOnError()
+        {
+            SimpleCommandCommandResponse command = new SimpleCommandCommandResponse();
+            Mock<ICommandDispatcher> dispatcher = new Mock<ICommandDispatcher>();
+            dispatcher.Setup(x => x.DispatchAsync(command, It.IsAny<CancellationToken>()))
+                .Throws(new DispatcherException("An error occurred", new Exception()));
+            TestSubjectController controller = new TestSubjectController(dispatcher.Object);
+
+            IActionResult result = await controller.ExecuteCommandProxy(command);
+
+            BadRequestObjectResult castResult = (BadRequestObjectResult)result;
+            Assert.Equal(400, castResult.StatusCode);
+            Assert.Equal("An error occurred", ((string[])((SerializableError)castResult.Value)[""])[0]);
+        }
+
+        [Fact]
+        public async Task ExecuteCommandWithCommandResponseAndNoResultAndGenerateBadResponse()
         {
             SimpleCommandCommandResponse command = new SimpleCommandCommandResponse();
             Mock<ICommandDispatcher> dispatcher = new Mock<ICommandDispatcher>();
@@ -76,6 +110,22 @@ namespace OnlineStore.Api.Tests.Controllers
             BadRequestObjectResult castResult = (BadRequestObjectResult)result;
             Assert.Equal(400, castResult.StatusCode);
             Assert.Equal("went wrong", ((string[])((SerializableError)castResult.Value)[""])[0]);
+        }
+
+        [Fact]
+        public async Task ExecuteCommandWithCommandResponseThrowsExceptionAndGeneratesBadResponse()
+        {
+            SimpleCommandCommandResponse command = new SimpleCommandCommandResponse();
+            Mock<ICommandDispatcher> dispatcher = new Mock<ICommandDispatcher>();
+            dispatcher.Setup(x => x.DispatchAsync(command, It.IsAny<CancellationToken>()))
+                .Throws(new DispatcherException("An error occurred", new Exception()));
+            TestSubjectController controller = new TestSubjectController(dispatcher.Object);
+
+            IActionResult result = await controller.ExecuteCommandProxy(command);
+
+            BadRequestObjectResult castResult = (BadRequestObjectResult)result;
+            Assert.Equal(400, castResult.StatusCode);
+            Assert.Equal("An error occurred", ((string[])((SerializableError)castResult.Value)[""])[0]);
         }
 
         [Fact]
@@ -110,6 +160,22 @@ namespace OnlineStore.Api.Tests.Controllers
         }
 
         [Fact]
+        public async Task ExecuteCommandWithCommandResponseWithResultThrownExceptionGeneratesBadResponse()
+        {
+            SimpleCommandCommandResponseResult command = new SimpleCommandCommandResponseResult();
+            Mock<ICommandDispatcher> dispatcher = new Mock<ICommandDispatcher>();
+            dispatcher.Setup(x => x.DispatchAsync(command, It.IsAny<CancellationToken>()))
+                .Throws(new DispatcherException("An error occurred", new Exception()));
+            TestSubjectController controller = new TestSubjectController(dispatcher.Object);
+
+            IActionResult result = await controller.ExecuteCommandProxy(command);
+
+            BadRequestObjectResult castResult = (BadRequestObjectResult)result;
+            Assert.Equal(400, castResult.StatusCode);
+            Assert.Equal("An error occurred", ((string[])((SerializableError)castResult.Value)[""])[0]);
+        }
+
+        [Fact]
         public async Task ExecuteGenericCommandWithCommandResponseWithNoResultGeneratesOkResponse()
         {
             Mock<ICommandDispatcher> dispatcher = new Mock<ICommandDispatcher>();
@@ -136,6 +202,21 @@ namespace OnlineStore.Api.Tests.Controllers
             BadRequestObjectResult castResult = (BadRequestObjectResult)result;
             Assert.Equal(400, castResult.StatusCode);
             Assert.Equal("went wrong", ((string[])((SerializableError)castResult.Value)[""])[0]);
+        }
+
+        [Fact]
+        public async Task ExecuteGenericCommandWithCommandResponseWithNoResultAndThrownExceptionGeneratesBadResponse()
+        {
+            Mock<ICommandDispatcher> dispatcher = new Mock<ICommandDispatcher>();
+            dispatcher.Setup(x => x.DispatchAsync(It.IsAny<SimpleCommandCommandResponse>(), It.IsAny<CancellationToken>()))
+                .Throws(new DispatcherException("An error occurred", new Exception()));
+            TestSubjectController controller = new TestSubjectController(dispatcher.Object);
+
+            IActionResult result = await controller.ExecuteCommandProxy<SimpleCommandCommandResponse>();
+
+            BadRequestObjectResult castResult = (BadRequestObjectResult)result;
+            Assert.Equal(400, castResult.StatusCode);
+            Assert.Equal("An error occurred", ((string[])((SerializableError)castResult.Value)[""])[0]);
         }
 
         [Fact]
@@ -166,6 +247,21 @@ namespace OnlineStore.Api.Tests.Controllers
             BadRequestObjectResult castResult = (BadRequestObjectResult)result;
             Assert.Equal(400, castResult.StatusCode);
             Assert.Equal("went wrong", ((string[])((SerializableError)castResult.Value)[""])[0]);
+        }
+
+        [Fact]
+        public async Task ExecuteGenericCommandWithCommandResponseWithResultThrownExceptionGeneratesBadResponse()
+        {
+            Mock<ICommandDispatcher> dispatcher = new Mock<ICommandDispatcher>();
+            dispatcher.Setup(x => x.DispatchAsync(It.IsAny<SimpleCommandCommandResponseResult>(), It.IsAny<CancellationToken>()))
+                .Throws(new DispatcherException("An error occurred", new Exception()));
+            TestSubjectController controller = new TestSubjectController(dispatcher.Object);
+
+            IActionResult result = await controller.ExecuteCommandProxy<SimpleCommandCommandResponseResult, bool>();
+
+            BadRequestObjectResult castResult = (BadRequestObjectResult)result;
+            Assert.Equal(400, castResult.StatusCode);
+            Assert.Equal("An error occurred", ((string[])((SerializableError)castResult.Value)[""])[0]);
         }
     }
 }

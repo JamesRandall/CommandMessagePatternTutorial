@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AzureFromTheTrenches.Commanding.Abstractions;
 using Core.Model;
 using Microsoft.AspNetCore.Mvc;
+using OnlineStore.Api.Exceptions;
 using OnlineStore.Api.Extensions;
 
 namespace OnlineStore.Api.Controllers
@@ -21,8 +23,16 @@ namespace OnlineStore.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            TResult response = await Dispatcher.DispatchAsync(command);
-            return Ok(response);
+            try
+            {
+                TResult response = await Dispatcher.DispatchAsync(command);
+                return Ok(response);
+            }
+            catch (DispatcherException ex)
+            {
+                ex.AddToModelState(ModelState);
+                return BadRequest(ModelState);
+            }
         }
 
         protected async Task<IActionResult> ExecuteCommand(ICommand<CommandResponse> command)
@@ -31,7 +41,17 @@ namespace OnlineStore.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            CommandResponse response = await Dispatcher.DispatchAsync(command);
+            CommandResponse response;
+            try
+            {
+                response = await Dispatcher.DispatchAsync(command);
+            }
+            catch (DispatcherException ex)
+            {
+                ex.AddToModelState(ModelState);
+                return BadRequest(ModelState);
+            }
+            
             if (response.IsSuccess)
             {
                 return Ok();
@@ -46,7 +66,17 @@ namespace OnlineStore.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            CommandResponse<TResult> response = await Dispatcher.DispatchAsync(command);
+            CommandResponse<TResult> response;
+            try
+            {
+                response = await Dispatcher.DispatchAsync(command);
+            }
+            catch (DispatcherException ex)
+            {
+                ex.AddToModelState(ModelState);
+                return BadRequest(ModelState);
+            }
+
             if (response.IsSuccess)
             {
                 return Ok(response.Result);
@@ -72,7 +102,17 @@ namespace OnlineStore.Api.Controllers
                 return BadRequest(ModelState);
             }
             TCommand command = CreateCommand<TCommand>();
-            CommandResponse<TResult> response = await Dispatcher.DispatchAsync(command);
+            CommandResponse<TResult> response;
+            try
+            {
+                response = await Dispatcher.DispatchAsync(command);
+            }
+            catch (DispatcherException ex)
+            {
+                ex.AddToModelState(ModelState);
+                return BadRequest(ModelState);
+            }
+            
             if (response.IsSuccess)
             {
                 return Ok(response.Result);

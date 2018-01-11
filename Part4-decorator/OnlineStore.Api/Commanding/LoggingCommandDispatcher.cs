@@ -5,34 +5,42 @@ using AzureFromTheTrenches.Commanding.Abstractions;
 using AzureFromTheTrenches.Commanding.Abstractions.Model;
 using Core.Model;
 using Microsoft.Extensions.Logging;
+using OnlineStore.Api.Exceptions;
+using OnlineStore.Api.Metrics;
 
 namespace OnlineStore.Api.Commanding
 {
-    public class LoggingCommandDispatcher : ICommandDispatcher
+    internal class LoggingCommandDispatcher : ICommandDispatcher
     {
         private readonly IFrameworkCommandDispatcher _underlyingDispatcher;
+        private readonly IMetricCollectorFactory _metricCollectorFactory;
         private readonly ILogger<LoggingCommandDispatcher> _logger;
 
         public LoggingCommandDispatcher(IFrameworkCommandDispatcher underlyingDispatcher,
-            ILoggerFactory loggerFactory)
+            ILogger<LoggingCommandDispatcher> logger,
+            IMetricCollectorFactory metricCollectorFactory)
         {
             _underlyingDispatcher = underlyingDispatcher;
-            _logger = loggerFactory.CreateLogger<LoggingCommandDispatcher>();
+            _metricCollectorFactory = metricCollectorFactory;
+            _logger = logger;
         }
 
-        public async Task<CommandResult<TResult>> DispatchAsync<TResult>(ICommand<TResult> command, CancellationToken cancellationToken)
+        public async Task<CommandResult<TResult>> DispatchAsync<TResult>(ICommand<TResult> command, CancellationToken cancellationToken = new CancellationToken())
         {
+            IMetricCollector metricCollector = _metricCollectorFactory.Create(command.GetType());
             try
-            {
+            {   
                 LogPreDispatchMessage(command);
                 CommandResult<TResult> result = await _underlyingDispatcher.DispatchAsync(command, cancellationToken);
                 LogSuccessfulPostDispatchMessage(command);
+                metricCollector.Complete();
                 return result;
             }
             catch (Exception ex)
             {
                 LogFailedPostDispatchMessage(command, ex);
-                return new CommandResult<TResult>(CommandResponse<TResult>.WithError($"Error occurred performing operation {command.GetType().Name}"), false);
+                metricCollector.CompleteWithError();
+                throw new DispatcherException($"Error occurred performing operation {command.GetType().Name}", ex);
             }
         }
 

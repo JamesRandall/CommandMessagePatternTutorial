@@ -3,6 +3,7 @@ using AzureFromTheTrenches.Commanding.Abstractions;
 using AzureFromTheTrenches.Commanding.MicrosoftDependencyInjection;
 using Checkout.Application;
 using FluentValidation.AspNetCore;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using OnlineStore.Api.Binders;
 using OnlineStore.Api.Commanding;
 using OnlineStore.Api.Filters;
+using OnlineStore.Api.Metrics;
 using OnlineStore.Api.Swagger;
 using ShoppingCart.Application;
 using Store.Application;
@@ -45,6 +47,9 @@ namespace OnlineStore.Api
                 c.SchemaFilter<SwaggerAuthenticatedUserIdFilter>();
                 c.OperationFilter<SwaggerAuthenticatedUserIdOperationFilter>();
             });
+
+            TelemetryClient client = new TelemetryClient();
+            services.AddSingleton<IMetricCollectorFactory>(s => new MetricCollectorFactory(client));
 
             CommandingDependencyResolver = new MicrosoftDependencyInjectionCommandingResolver(services);
             ICommandRegistry registry = CommandingDependencyResolver.UseCommanding();
