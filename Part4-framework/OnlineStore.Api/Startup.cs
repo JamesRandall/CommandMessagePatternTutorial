@@ -52,7 +52,10 @@ namespace OnlineStore.Api
             services.AddSingleton<IMetricCollector>(s => new MetricCollector(client));
 
             CommandingDependencyResolver = new MicrosoftDependencyInjectionCommandingResolver(services);
-            ICommandRegistry registry = CommandingDependencyResolver.UseCommanding();
+            ICommandRegistry registry = CommandingDependencyResolver.UseCommanding(new Options
+            {
+                CommandExecutionExceptionHandler = typeof(CommandExecutionExceptionHandler)
+            });
             CommandingDependencyResolver
                 .UsePreDispatchCommandingAuditor<LoggingCommandPreDispatchAuditor>()
                 .UseExecutionCommandingAuditor<LoggingCommandExecutionAuditor>()
