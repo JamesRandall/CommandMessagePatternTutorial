@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AzureFromTheTrenches.Commanding.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Checkout.Commands\Checkout.Commands.csproj" />
+    <ProjectReference Include="..\Checkout.Model\Checkout.Model.csproj" />
+    <ProjectReference Include="..\Checkout.Validation\Checkout.Validation.csproj" />
+    <ProjectReference Include="..\Core.Model\Core.Model.csproj" />
+    <ProjectReference Include="..\ShoppingCart.Commands\ShoppingCart.Commands.csproj" />
+    <ProjectReference Include="..\ShoppingCart.Model\ShoppingCart.Model.csproj" />
+    <ProjectReference Include="..\Store.Application\Store.Application.csproj" />
+    <ProjectReference Include="..\Store.Commands\Store.Commands.csproj" />
+  </ItemGroup>
+
+</Project>
