@@ -11,21 +11,21 @@ using OnlineStore.Api.Metrics;
 
 namespace OnlineStore.Api.Commanding
 {
-    internal class LoggingCommandExecutionAuditor : ICommandAuditor
+    public class LoggingCommandExecutionAuditor : ICommandAuditor
     {
-        private readonly ILogger<LoggingCommandExecutionAuditor> _logger;
+        private readonly ILogger _logger;
         private readonly IMetricCollector _metricCollector;
 
-        public LoggingCommandExecutionAuditor(ILogger<LoggingCommandExecutionAuditor> logger,
+        /*public LoggingCommandExecutionAuditor(ILogger logger,
             IMetricCollector metricCollector)
         {
             _logger = logger;
             _metricCollector = metricCollector;
-        }
+        }*/
 
         public Task Audit(AuditItem auditItem, CancellationToken cancellationToken)
         {
-            Debug.Assert(auditItem.ExecutedSuccessfully.HasValue);
+            /*Debug.Assert(auditItem.ExecutedSuccessfully.HasValue);
             Debug.Assert(auditItem.ExecutionTimeMs.HasValue);
 
             if (auditItem.ExecutedSuccessfully.Value)
@@ -57,7 +57,7 @@ namespace OnlineStore.Api.Commanding
                         auditItem.CommandType);
                 }
                 _metricCollector.RecordWithError(auditItem.CommandType, auditItem.ExecutionTimeMs.Value);
-            }
+            }*/
             
             return Task.FromResult(0);
         }

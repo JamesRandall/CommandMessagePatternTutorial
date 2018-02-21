@@ -1,7 +1,10 @@
-﻿using AzureFromTheTrenches.Commanding;
+﻿using System;
+using AzureFromTheTrenches.Commanding;
 using AzureFromTheTrenches.Commanding.Abstractions;
+using AzureFromTheTrenches.Commanding.Http;
 using AzureFromTheTrenches.Commanding.MicrosoftDependencyInjection;
 using Checkout.Application;
+using Core.Commanding;
 using FluentValidation.AspNetCore;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;
@@ -32,8 +35,10 @@ namespace OnlineStore.Api
 
         private IMicrosoftDependencyInjectionCommandingResolver CommandingDependencyResolver { get; set; }
 
+        private IServiceProvider ServiceProvider { get; set; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(c =>
             {
@@ -49,22 +54,22 @@ namespace OnlineStore.Api
             });
 
             TelemetryClient client = new TelemetryClient();
-            services.AddSingleton<IMetricCollector>(s => new MetricCollector(client));
-
+            
             CommandingDependencyResolver = new MicrosoftDependencyInjectionCommandingResolver(services);
             ICommandRegistry registry = CommandingDependencyResolver.UseCommanding(new Options
             {
                 CommandExecutionExceptionHandler = typeof(CommandExecutionExceptionHandler)
             });
-            CommandingDependencyResolver
-                .UsePreDispatchCommandingAuditor<LoggingCommandPreDispatchAuditor>()
-                .UseExecutionCommandingAuditor<LoggingCommandExecutionAuditor>()
-                .UseAuditItemEnricher<AuditItemUserIdEnricher>();
-
+            CommandingDependencyResolver.UseHttpCommanding();
+            
             services
+                .UseCoreCommanding(CommandingDependencyResolver)
                 .UseShoppingCart(registry)
-                .UseStore(registry)
+                .UseStore(() => ServiceProvider, registry, ApplicationModeEnum.Client)
                 .UseCheckout(registry);
+
+            ServiceProvider = services.BuildServiceProvider();
+            return ServiceProvider;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

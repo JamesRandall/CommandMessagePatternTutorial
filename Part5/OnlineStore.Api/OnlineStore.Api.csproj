@@ -9,13 +9,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AzureFromTheTrenches.Commanding" Version="6.0.0" />
-    <PackageReference Include="AzureFromTheTrenches.Commanding.Abstractions" Version="6.0.0" />
-    <PackageReference Include="AzureFromTheTrenches.Commanding.MicrosoftDependencyInjection" Version="6.0.0" />
-    <PackageReference Include="FluentValidation.AspNetCore" Version="7.3.4" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="AzureFromTheTrenches.Commanding" Version="7.0.0" />
+    <PackageReference Include="AzureFromTheTrenches.Commanding.Abstractions" Version="7.0.0" />
+    <PackageReference Include="AzureFromTheTrenches.Commanding.Http" Version="7.0.0" />
+    <PackageReference Include="AzureFromTheTrenches.Commanding.MicrosoftDependencyInjection" Version="7.0.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="7.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>

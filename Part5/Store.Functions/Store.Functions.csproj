@@ -4,14 +4,15 @@
     <AzureFunctionsVersion>v2</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AzureFromTheTrenches.Commanding" Version="6.0.0" />
-    <PackageReference Include="AzureFromTheTrenches.Commanding.MicrosoftDependencyInjection" Version="6.0.0" />
-    <PackageReference Include="FluentValidation" Version="7.3.4" />
+    <PackageReference Include="AzureFromTheTrenches.Commanding" Version="7.0.0" />
+    <PackageReference Include="AzureFromTheTrenches.Commanding.MicrosoftDependencyInjection" Version="7.0.0" />
+    <PackageReference Include="FluentValidation" Version="7.4.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.6" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.8" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core.Commanding\Core.Commanding.csproj" />
     <ProjectReference Include="..\Store.Application\Store.Application.csproj" />
     <ProjectReference Include="..\Store.Commands\Store.Commands.csproj" />
     <ProjectReference Include="..\Store.Model\Store.Model.csproj" />

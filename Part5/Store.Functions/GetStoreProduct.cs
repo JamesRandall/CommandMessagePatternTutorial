@@ -1,52 +1,56 @@
 
+using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using AzureFromTheTrenches.Commanding;
 using AzureFromTheTrenches.Commanding.Abstractions;
 using AzureFromTheTrenches.Commanding.MicrosoftDependencyInjection;
+using Core.Commanding;
+using Core.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Store.Application;
 using Store.Commands;
+using Store.Model;
 
 namespace Store.Functions
 {
     public static class GetStoreProduct
     {
-        [FunctionName("GetStoreProduct")]
-        public static Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]HttpRequest req, TraceWriter log)
+        private static readonly IServiceProvider ServiceProvider;
+        private static readonly AsyncLocal<ILogger> Logger = new AsyncLocal<ILogger>();
+        
+        static GetStoreProduct()
         {
-            log.Info("C# HTTP trigger function processed a request.");
-
             IServiceCollection serviceCollection = new ServiceCollection();
-            serviceCollection.AddLogging(configure =>
-            {
-                configure.AddTraceSource()
-            })
-            ICommandingDependencyResolver resolver = new MicrosoftDependencyInjectionCommandingResolver(serviceCollection);
-            ICommandRegistry registry = resolver.UseCommanding(new Options
-            {
-                //CommandExecutionExceptionHandler = typeof(CommandExecutionExceptionHandler)
-            });
-            serviceCollection.UseStore(registry);
-            resolver
-                .UseExecutionCommandingAuditor<LoggingCommandExecutionAuditor>()
-                .UseAuditItemEnricher<AuditItemUserIdEnricher>();
+            MicrosoftDependencyInjectionCommandingResolver resolver = new MicrosoftDependencyInjectionCommandingResolver(serviceCollection);
+            ICommandRegistry registry = resolver.UseCommanding();
+            serviceCollection.UseCoreCommanding(resolver);
+            serviceCollection.UseStore(() => ServiceProvider, registry, ApplicationModeEnum.Server);
+            serviceCollection.AddTransient((sp) => Logger.Value);
+            ServiceProvider = resolver.ServiceProvider = serviceCollection.BuildServiceProvider();
+        }
 
-            string requestBody = new StreamReader(req.Body).ReadToEnd();
-            GetStoreProductQuery query = JsonConvert.DeserializeObject<GetStoreProductQuery>(requestBody);
+        [FunctionName("GetStoreProduct")]
+        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)]HttpRequest req, ILogger logger)
+        {
+            Logger.Value = logger;
+            logger.LogInformation("C# HTTP trigger function processed a request.");
             
+            IDirectCommandExecuter executer = ServiceProvider.GetService<IDirectCommandExecuter>();
 
-
-            return name != null
-                ? (ActionResult)new OkObjectResult($"Hello, {name}")
-                : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
+            GetStoreProductQuery query = new GetStoreProductQuery
+            {
+                ProductId = Guid.Parse(req.GetQueryParameterDictionary()["ProductId"])
+            };
+            CommandResponse<StoreProduct> result = await executer.ExecuteAsync(query);
+            return new OkObjectResult(result);
         }
     }
 }
