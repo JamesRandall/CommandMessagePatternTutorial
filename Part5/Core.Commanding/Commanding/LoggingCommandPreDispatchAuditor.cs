@@ -4,7 +4,7 @@ using AzureFromTheTrenches.Commanding.Abstractions;
 using AzureFromTheTrenches.Commanding.Abstractions.Model;
 using Microsoft.Extensions.Logging;
 
-namespace OnlineStore.Api.Commanding
+namespace Core.Commanding.Commanding
 {
     internal class LoggingCommandPreDispatchAuditor : ICommandAuditor
     {

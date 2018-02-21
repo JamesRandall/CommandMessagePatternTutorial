@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AzureFromTheTrenches.Commanding.Abstractions;
-using OnlineStore.Api.Exceptions;
+using Core.Commanding.Exceptions;
 
-namespace OnlineStore.Api.Commanding
+namespace Core.Commanding.Commanding
 {
     public class CommandExecutionExceptionHandler : ICommandExecutionExceptionHandler
     {

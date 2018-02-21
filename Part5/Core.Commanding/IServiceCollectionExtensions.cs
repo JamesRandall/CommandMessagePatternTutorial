@@ -1,8 +1,8 @@
 ﻿using AzureFromTheTrenches.Commanding;
 using AzureFromTheTrenches.Commanding.Abstractions;
+using Core.Commanding.Commanding;
+using Core.Commanding.Metrics;
 using Microsoft.Extensions.DependencyInjection;
-using OnlineStore.Api.Commanding;
-using OnlineStore.Api.Metrics;
 
 namespace Core.Commanding
 {

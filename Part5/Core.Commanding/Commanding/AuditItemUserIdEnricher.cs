@@ -2,7 +2,7 @@
 using AzureFromTheTrenches.Commanding.Abstractions;
 using Core.Model;
 
-namespace OnlineStore.Api.Commanding
+namespace Core.Commanding.Commanding
 {
     public class AuditItemUserIdEnricher : IAuditItemEnricher
     {

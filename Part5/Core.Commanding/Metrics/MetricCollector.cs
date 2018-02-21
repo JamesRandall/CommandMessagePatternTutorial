@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.Api.Metrics
+﻿namespace Core.Commanding.Metrics
 {
     public class MetricCollector : IMetricCollector
     {

@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using OnlineStore.Api.Exceptions;
+﻿using Core.Commanding.Exceptions;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace OnlineStore.Api.Extensions
 {

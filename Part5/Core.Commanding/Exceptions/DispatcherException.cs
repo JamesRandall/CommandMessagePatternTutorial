@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OnlineStore.Api.Exceptions
+namespace Core.Commanding.Exceptions
 {
     public class DispatcherException : Exception
     {

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AzureFromTheTrenches.Commanding.Abstractions;
 using AzureFromTheTrenches.Commanding.Abstractions.Model;
+using Core.Commanding.Metrics;
 using Microsoft.Extensions.Logging;
-using OnlineStore.Api.Metrics;
 
-namespace OnlineStore.Api.Commanding
+namespace Core.Commanding.Commanding
 {
     public class LoggingCommandExecutionAuditor : ICommandAuditor
     {

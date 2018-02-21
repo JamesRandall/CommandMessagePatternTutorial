@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AzureFromTheTrenches.Commanding.Abstractions;
+using Core.Commanding.Exceptions;
 using Core.Model;
 using Microsoft.AspNetCore.Mvc;
-using OnlineStore.Api.Exceptions;
 using OnlineStore.Api.Extensions;
 
 namespace OnlineStore.Api.Controllers

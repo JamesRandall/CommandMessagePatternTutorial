@@ -3,11 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using AzureFromTheTrenches.Commanding.Abstractions;
 using AzureFromTheTrenches.Commanding.Abstractions.Model;
+using Core.Commanding.Exceptions;
 using Core.Model;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using OnlineStore.Api.Controllers;
-using OnlineStore.Api.Exceptions;
 using OnlineStore.Api.Tests.TestAssets;
 using Xunit;
 
